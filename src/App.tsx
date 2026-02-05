@@ -36,6 +36,8 @@ const App = () => (
             {/* Login */}
             <Route path="/login" element={<AdminLogin />} />
 
+
+
             {/* PANEL ADMINA */}
             <Route
               path="/panel"

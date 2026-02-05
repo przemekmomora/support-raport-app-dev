@@ -32,7 +32,7 @@ const AdminDashboard = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/manage-xyz/login");
+    navigate("/login");
   };
 
   return (
@@ -79,14 +79,14 @@ const AdminDashboard = () => {
               <CardTitle>Zarządzanie klientami</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button asChild className="w-full">
-                <Link to="/manage-xyz/clients">
+                <Button asChild className="w-full">
+                <Link to="/panel/klienci">
                   <Users className="mr-2 h-4 w-4" />
                   Lista klientów
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full">
-                <Link to="/manage-xyz/clients/new">
+                <Link to="/panel/klienci/nowy">
                   <Plus className="mr-2 h-4 w-4" />
                   Dodaj klienta
                 </Link>
@@ -99,14 +99,14 @@ const AdminDashboard = () => {
               <CardTitle>Zarządzanie raportami</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button asChild className="w-full">
-                <Link to="/manage-xyz/reports">
+                <Button asChild className="w-full">
+                <Link to="/panel/raporty">
                   <FileText className="mr-2 h-4 w-4" />
                   Lista raportów
                 </Link>
               </Button>
               <Button asChild variant="outline" className="w-full">
-                <Link to="/manage-xyz/reports/new">
+                <Link to="/panel/raporty/nowy">
                   <Plus className="mr-2 h-4 w-4" />
                   Utwórz raport
                 </Link>

@@ -51,7 +51,7 @@ const ClientForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
       toast.success("Klient został dodany");
-      navigate("/manage-xyz/clients");
+      navigate("/panel/klienci");
     },
     onError: (error) => {
       toast.error("Nie udało się dodać klienta", {
@@ -69,7 +69,7 @@ const ClientForm = () => {
       queryClient.invalidateQueries({ queryKey: ["clients"] });
       queryClient.invalidateQueries({ queryKey: ["client", id] });
       toast.success("Klient został zaktualizowany");
-      navigate("/manage-xyz/clients");
+      navigate("/panel/klienci");
     },
     onError: (error) => {
       toast.error("Nie udało się zaktualizować klienta", {
@@ -108,7 +108,7 @@ const ClientForm = () => {
       <div className="container mx-auto max-w-xl space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
-            <Link to="/manage-xyz/clients">
+            <Link to="/panel/klienci">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
@@ -170,7 +170,7 @@ const ClientForm = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => navigate("/manage-xyz/clients")}
+                  onClick={() => navigate("/panel/klienci")}
                 >
                   Anuluj
                 </Button>

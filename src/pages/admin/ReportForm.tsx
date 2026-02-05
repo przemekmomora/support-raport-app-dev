@@ -139,7 +139,7 @@ const ReportForm = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
       toast.success("Raport został utworzony");
-      navigate("/manage-xyz/reports");
+      navigate("/panel/raporty");
     },
     onError: (error) => {
       toast.error("Nie udało się utworzyć raportu", { description: error.message });
@@ -156,7 +156,7 @@ const ReportForm = () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
       queryClient.invalidateQueries({ queryKey: ["report", id] });
       toast.success("Raport został zaktualizowany");
-      navigate("/manage-xyz/reports");
+      navigate("/panel/raporty");
     },
     onError: (error) => {
       toast.error("Nie udało się zaktualizować raportu", { description: error.message });
@@ -333,7 +333,7 @@ const ReportForm = () => {
       <div className="container mx-auto max-w-2xl space-y-6">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
-            <Link to="/manage-xyz/reports">
+            <Link to="/panel/raporty">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
@@ -647,7 +647,7 @@ const ReportForm = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate("/manage-xyz/reports")}
+              onClick={() => navigate("/panel/raporty")}
             >
               Anuluj
             </Button>

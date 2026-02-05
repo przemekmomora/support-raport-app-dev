@@ -120,14 +120,14 @@ const ReportsList = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" asChild>
-              <Link to="/manage-xyz">
+              <Link to="/panel">
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             </Button>
             <h1 className="text-2xl font-bold">Raporty</h1>
           </div>
           <Button asChild>
-            <Link to="/manage-xyz/reports/new">
+            <Link to="/panel/raporty/nowy">
               <Plus className="mr-2 h-4 w-4" />
               Utwórz raport
             </Link>
@@ -196,7 +196,7 @@ const ReportsList = () => {
                             <Button
                               variant="ghost"
                               size="icon"
-                              onClick={() => navigate(`/manage-xyz/reports/${report.id}/edit`)}
+                              onClick={() => navigate(`/panel/raporty/${report.id}/edycja`)}
                               title="Edytuj"
                             >
                               <Pencil className="h-4 w-4" />

@@ -18,7 +18,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!user) {
-    return <Navigate to="/manage-xyz/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   if (!isAdmin) {

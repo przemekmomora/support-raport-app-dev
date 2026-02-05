@@ -30,7 +30,7 @@ const AdminLogin = () => {
     }
 
     toast.success("Zalogowano pomyślnie");
-    navigate("/manage-xyz");
+    navigate("/panel");
   };
 
   return (

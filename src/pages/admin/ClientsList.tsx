@@ -81,14 +81,14 @@ const ClientsList = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" asChild>
-              <Link to="/manage-xyz">
+              <Link to="/panel">
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             </Button>
             <h1 className="text-2xl font-bold">Klienci</h1>
           </div>
           <Button asChild>
-            <Link to="/manage-xyz/clients/new">
+            <Link to="/panel/klienci/nowy">
               <Plus className="mr-2 h-4 w-4" />
               Dodaj klienta
             </Link>
@@ -131,7 +131,7 @@ const ClientsList = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => navigate(`/manage-xyz/clients/${client.id}/edit`)}
+                          onClick={() => navigate(`/panel/klienci/${client.id}/edycja`)}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>

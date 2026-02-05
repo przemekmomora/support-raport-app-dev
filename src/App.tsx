@@ -14,6 +14,7 @@ import ClientsList from "./pages/admin/ClientsList";
 import ClientForm from "./pages/admin/ClientForm";
 import ReportsList from "./pages/admin/ReportsList";
 import ReportForm from "./pages/admin/ReportForm";
+import { Navigate } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -25,10 +26,11 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/reports/:id" element={<Report />} />
             
             {/* Admin routes */}
+            
             <Route path="/login" element={<AdminLogin />} />
             <Route
               path="/manage-xyz"

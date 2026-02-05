@@ -33,7 +33,7 @@ const App = () => (
             
             <Route path="/login" element={<AdminLogin />} />
             <Route
-              path="/manage-xyz"
+              path="/panel"
               element={
                 <ProtectedRoute>
                   <AdminDashboard />
@@ -41,7 +41,7 @@ const App = () => (
               }
             />
             <Route
-              path="/manage-xyz/clients"
+              path="/clients"
               element={
                 <ProtectedRoute>
                   <ClientsList />
@@ -49,7 +49,7 @@ const App = () => (
               }
             />
             <Route
-              path="/manage-xyz/clients/new"
+              path="/clients/new"
               element={
                 <ProtectedRoute>
                   <ClientForm />
@@ -57,7 +57,7 @@ const App = () => (
               }
             />
             <Route
-              path="/manage-xyz/clients/:id/edit"
+              path="/clients/:id/edit"
               element={
                 <ProtectedRoute>
                   <ClientForm />
@@ -65,7 +65,7 @@ const App = () => (
               }
             />
             <Route
-              path="/manage-xyz/reports"
+              path="/reports"
               element={
                 <ProtectedRoute>
                   <ReportsList />
@@ -73,7 +73,7 @@ const App = () => (
               }
             />
             <Route
-              path="/manage-xyz/reports/new"
+              path="/reports/new"
               element={
                 <ProtectedRoute>
                   <ReportForm />
@@ -81,7 +81,7 @@ const App = () => (
               }
             />
             <Route
-              path="/manage-xyz/reports/:id/edit"
+              path="/reports/:id/edit"
               element={
                 <ProtectedRoute>
                   <ReportForm />

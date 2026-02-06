@@ -10,8 +10,8 @@ export const ReportTasks = ({ tasks }: ReportTasksProps) => {
   }
 
   return (
-    <div 
-      className="animate-fade-in-up space-y-6 border-t border-border py-8" 
+    <div
+      className="animate-fade-in-up space-y-6 border-t border-border bg-[#F4FBF7] px-6 py-8"
       style={{ animationDelay: "0.3s" }}
     >
       <div className="flex items-baseline justify-between">
@@ -29,7 +29,7 @@ export const ReportTasks = ({ tasks }: ReportTasksProps) => {
             key={index} 
             className="flex items-start gap-3"
           >
-            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#3FAF7D]" />
             <span className="text-foreground leading-relaxed">{task}</span>
           </li>
         ))}

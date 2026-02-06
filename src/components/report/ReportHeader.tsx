@@ -18,7 +18,7 @@ export const ReportHeader = ({ clientName, month, websiteUrl }: ReportHeaderProp
           Raport miesięczny · <span className="capitalize">{formattedMonth}</span>
         </p>
         
-        <h1 className="text-5xl font-extrabold tracking-tight text-foreground">
+        <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">
           {clientName}
         </h1>
       </div>

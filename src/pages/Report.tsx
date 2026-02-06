@@ -117,15 +117,17 @@ const Report = () => {
             pagespeedUrl={report.pagespeed_url}
           />
 
-          <ReportTasks tasks={tasks} />
+          <div className="space-y-6">
+            <ReportTasks tasks={tasks} />
 
-          <ReportExtraTasks tasks={extraTasks} />
+            <ReportExtraTasks tasks={extraTasks} />
 
-          <ReportExtraPaidTasks tasks={extraPaidTasks} />
+            <ReportExtraPaidTasks tasks={extraPaidTasks} />
 
-          <ReportRecommendations recommendations={recommendations} />
+            <ReportRecommendations recommendations={recommendations} />
 
-          {report.invoice_url && <ReportInvoice invoiceUrl={report.invoice_url} />}
+            {report.invoice_url && <ReportInvoice invoiceUrl={report.invoice_url} />}
+          </div>
 
           <footer className="mt-16 pt-8 border-t border-border text-center space-y-2">
             <p className="text-muted-foreground">

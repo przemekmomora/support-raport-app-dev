@@ -51,6 +51,7 @@ const ReportForm = () => {
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
   const [customTasks, setCustomTasks] = useState<string[]>([]);
   const [newCustomTask, setNewCustomTask] = useState("");
+  const [createdTemplateIds, setCreatedTemplateIds] = useState<string[]>([]);
   
   // Extra tasks
   const [extraTasks, setExtraTasks] = useState<string[]>([]);
@@ -177,11 +178,33 @@ const ReportForm = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["task-templates"] });
       setSelectedTasks([...selectedTasks, data.name]);
+      setCreatedTemplateIds(prev => [...prev, data.id]);
       setNewCustomTask("");
       toast.success("Zadanie dodane do szablonów");
     },
     onError: (error) => {
       toast.error("Nie udało się dodać szablonu", { description: error.message });
+    },
+  });
+
+  // Remove task template (deactivate)
+  const deleteTemplateMutation = useMutation({
+    mutationFn: async (template: TaskTemplate) => {
+      const { error } = await supabase
+        .from("task_templates")
+        .update({ is_active: false })
+        .eq("id", template.id);
+      if (error) throw error;
+      return template;
+    },
+    onSuccess: (template) => {
+      queryClient.invalidateQueries({ queryKey: ["task-templates"] });
+      setSelectedTasks(prev => prev.filter(t => t !== template.name));
+      setCreatedTemplateIds(prev => prev.filter(id => id !== template.id));
+      toast.success("Szablon został usunięty");
+    },
+    onError: (error) => {
+      toast.error("Nie udało się usunąć szablonu", { description: error.message });
     },
   });
 
@@ -454,8 +477,14 @@ const ReportForm = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
-                {taskTemplates?.map((template) => (
-                  <div key={template.id} className="flex items-center space-x-3">
+                {taskTemplates?.map((template) => {
+                  const isNewTemplate = createdTemplateIds.includes(template.id);
+                  const isDeletingTemplate =
+                    deleteTemplateMutation.isPending &&
+                    deleteTemplateMutation.variables?.id === template.id;
+
+                  return (
+                    <div key={template.id} className="flex items-center gap-3">
                     <Checkbox
                       id={template.id}
                       checked={selectedTasks.includes(template.name)}
@@ -467,8 +496,26 @@ const ReportForm = () => {
                     >
                       {template.name}
                     </label>
+                    {isNewTemplate && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="ml-auto"
+                        onClick={() => deleteTemplateMutation.mutate(template)}
+                        disabled={isDeletingTemplate}
+                        title="Usuń z szablonów"
+                      >
+                        {isDeletingTemplate ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <X className="h-4 w-4" />
+                        )}
+                      </Button>
+                    )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Custom tasks */}

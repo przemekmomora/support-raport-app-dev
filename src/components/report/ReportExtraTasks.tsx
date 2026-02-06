@@ -15,7 +15,7 @@ export const ReportExtraTasks = ({ tasks }: ReportExtraTasksProps) => {
       style={{ animationDelay: "0.4s" }}
     >
       <div className="flex items-baseline justify-between">
-        <h2 className="text-lg font-bold text-foreground">Prace dodatkowe</h2>
+        <h2 className="text-lg font-bold text-foreground">Prace dodatkowe - w Pakiecie</h2>
         <span className="text-sm text-muted-foreground">{tasks.length} zadań</span>
       </div>
 

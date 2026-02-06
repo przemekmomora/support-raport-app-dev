@@ -599,7 +599,7 @@ const ReportForm = () => {
           {/* Extra Tasks */}
           <Card>
             <CardHeader>
-              <CardTitle>Prace dodatkowe</CardTitle>
+              <CardTitle>Prace dodatkowe - w Pakiecie</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {extraTasks.length > 0 && (

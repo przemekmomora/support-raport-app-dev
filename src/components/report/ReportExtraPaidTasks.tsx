@@ -1,10 +1,10 @@
 import { CircleCheck } from "lucide-react";
 
-interface ReportExtraTasksProps {
+interface ReportExtraPaidTasksProps {
   tasks: string[];
 }
 
-export const ReportExtraTasks = ({ tasks }: ReportExtraTasksProps) => {
+export const ReportExtraPaidTasks = ({ tasks }: ReportExtraPaidTasksProps) => {
   if (tasks.length === 0) {
     return null;
   }
@@ -12,10 +12,10 @@ export const ReportExtraTasks = ({ tasks }: ReportExtraTasksProps) => {
   return (
     <div
       className="animate-fade-in-up space-y-6 border-t border-border py-8"
-      style={{ animationDelay: "0.4s" }}
+      style={{ animationDelay: "0.45s" }}
     >
       <div className="flex items-baseline justify-between">
-        <h2 className="text-lg font-bold text-foreground">Prace dodatkowe</h2>
+        <h2 className="text-lg font-bold text-foreground">Prace dodatkowe - Płatne</h2>
         <span className="text-sm text-muted-foreground">{tasks.length} zadań</span>
       </div>
 

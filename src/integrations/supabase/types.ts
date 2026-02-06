@@ -43,6 +43,7 @@ export type Database = {
           client_id: string
           created_at: string
           extra_tasks_json: Json | null
+          extra_paid_tasks_json: Json | null
           id: string
           invoice_url: string | null
           month: string
@@ -60,6 +61,7 @@ export type Database = {
           client_id: string
           created_at?: string
           extra_tasks_json?: Json | null
+          extra_paid_tasks_json?: Json | null
           id?: string
           invoice_url?: string | null
           month: string
@@ -77,6 +79,7 @@ export type Database = {
           client_id?: string
           created_at?: string
           extra_tasks_json?: Json | null
+          extra_paid_tasks_json?: Json | null
           id?: string
           invoice_url?: string | null
           month?: string

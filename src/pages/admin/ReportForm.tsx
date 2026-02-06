@@ -56,6 +56,10 @@ const ReportForm = () => {
   // Extra tasks
   const [extraTasks, setExtraTasks] = useState<string[]>([]);
   const [newExtraTask, setNewExtraTask] = useState("");
+
+  // Paid extra tasks
+  const [extraPaidTasks, setExtraPaidTasks] = useState<string[]>([]);
+  const [newExtraPaidTask, setNewExtraPaidTask] = useState("");
   
   // Recommendations
   const [recommendations, setRecommendations] = useState<string[]>([]);
@@ -127,6 +131,11 @@ const ReportForm = () => {
       setCustomTasks(custom);
       
       setExtraTasks(Array.isArray(report.extra_tasks_json) ? report.extra_tasks_json as string[] : []);
+      setExtraPaidTasks(
+        Array.isArray(report.extra_paid_tasks_json)
+          ? (report.extra_paid_tasks_json as string[])
+          : [],
+      );
       setRecommendations(Array.isArray(report.recommendations) ? report.recommendations as string[] : []);
     }
   }, [report, taskTemplates]);
@@ -228,6 +237,9 @@ const ReportForm = () => {
     const finalExtraTasks = newExtraTask.trim() 
       ? [...extraTasks, newExtraTask.trim()] 
       : extraTasks;
+    const finalExtraPaidTasks = newExtraPaidTask.trim()
+      ? [...extraPaidTasks, newExtraPaidTask.trim()]
+      : extraPaidTasks;
     const finalRecommendations = newRecommendation.trim() 
       ? [...recommendations, newRecommendation.trim()] 
       : recommendations;
@@ -244,6 +256,7 @@ const ReportForm = () => {
       invoice_url: invoiceUrl || null,
       tasks_json: allTasks,
       extra_tasks_json: finalExtraTasks,
+      extra_paid_tasks_json: finalExtraPaidTasks,
       recommendations: finalRecommendations,
     };
 
@@ -288,6 +301,17 @@ const ReportForm = () => {
 
   const removeExtraTask = (index: number) => {
     setExtraTasks(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const addExtraPaidTask = () => {
+    if (newExtraPaidTask.trim()) {
+      setExtraPaidTasks([...extraPaidTasks, newExtraPaidTask.trim()]);
+      setNewExtraPaidTask("");
+    }
+  };
+
+  const removeExtraPaidTask = (index: number) => {
+    setExtraPaidTasks(prev => prev.filter((_, i) => i !== index));
   };
 
   const addRecommendation = () => {
@@ -575,7 +599,7 @@ const ReportForm = () => {
           {/* Extra Tasks */}
           <Card>
             <CardHeader>
-              <CardTitle>Prace dodatkowe płatne</CardTitle>
+              <CardTitle>Prace dodatkowe</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {extraTasks.length > 0 && (
@@ -608,6 +632,49 @@ const ReportForm = () => {
                   }}
                 />
                 <Button type="button" variant="outline" onClick={addExtraTask}>
+                  <Plus className="h-4 w-4 mr-1" />
+                  Dodaj
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Extra Paid Tasks */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Prace dodatkowe - Płatne</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {extraPaidTasks.length > 0 && (
+                <div className="space-y-2">
+                  {extraPaidTasks.map((task, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="text-sm flex-1">{task}</span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeExtraPaidTask(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <Input
+                  placeholder="Dodaj pracę dodatkową płatną..."
+                  value={newExtraPaidTask}
+                  onChange={(e) => setNewExtraPaidTask(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addExtraPaidTask();
+                    }
+                  }}
+                />
+                <Button type="button" variant="outline" onClick={addExtraPaidTask}>
                   <Plus className="h-4 w-4 mr-1" />
                   Dodaj
                 </Button>

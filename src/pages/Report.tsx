@@ -6,6 +6,7 @@ import { ReportStatus } from "@/components/report/ReportStatus";
 import { ReportMetrics } from "@/components/report/ReportMetrics";
 import { ReportTasks } from "@/components/report/ReportTasks";
 import { ReportExtraTasks } from "@/components/report/ReportExtraTasks";
+import { ReportExtraPaidTasks } from "@/components/report/ReportExtraPaidTasks";
 import { ReportRecommendations } from "@/components/report/ReportRecommendations";
 import { ReportInvoice } from "@/components/report/ReportInvoice";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,6 +22,7 @@ interface Report {
   updates_count: number;
   tasks_json: string[] | null;
   extra_tasks_json: string[] | null;
+  extra_paid_tasks_json: string[] | null;
   recommendations: string[] | null;
   invoice_url: string | null;
   pagespeed_url: string | null;
@@ -92,6 +94,9 @@ const Report = () => {
 
   const tasks = Array.isArray(report.tasks_json) ? report.tasks_json : [];
   const extraTasks = Array.isArray(report.extra_tasks_json) ? report.extra_tasks_json : [];
+  const extraPaidTasks = Array.isArray(report.extra_paid_tasks_json)
+    ? report.extra_paid_tasks_json
+    : [];
   const recommendations = Array.isArray(report.recommendations) ? report.recommendations : [];
 
   return (
@@ -115,6 +120,8 @@ const Report = () => {
           <ReportTasks tasks={tasks} />
 
           <ReportExtraTasks tasks={extraTasks} />
+
+          <ReportExtraPaidTasks tasks={extraPaidTasks} />
 
           <ReportRecommendations recommendations={recommendations} />
 

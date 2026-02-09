@@ -1,6 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Receipt } from "lucide-react";
+import { Download } from "lucide-react";
 
 interface ReportInvoiceProps {
   invoiceUrl?: string | null;
@@ -13,19 +12,16 @@ export const ReportInvoice = ({ invoiceUrl }: ReportInvoiceProps) => {
   };
 
   return (
-    <Card className="animate-fade-in-up overflow-hidden border-0 shadow-soft" style={{ animationDelay: "0.6s" }}>
-      <CardContent className="p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-secondary">
-            <Receipt className="h-7 w-7 text-muted-foreground" />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-foreground">Faktura do pobrania</h3>
-            <p className="text-sm text-muted-foreground">
-              Pobierz fakturę za ten miesiąc
-            </p>
-          </div>
+    <div
+      className="animate-fade-in-up space-y-4 border-t border-border py-8"
+      style={{ animationDelay: "0.6s" }}
+    >
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-foreground">Faktura do pobrania</h2>
+          <p className="text-sm text-muted-foreground">
+            Pobierz fakturę za ten miesiąc
+          </p>
         </div>
         {invoiceUrl && (
           <Button onClick={handleDownload} className="w-full gap-2 rounded-lg sm:w-auto">
@@ -33,8 +29,7 @@ export const ReportInvoice = ({ invoiceUrl }: ReportInvoiceProps) => {
             Pobierz fakturę
           </Button>
         )}
-        </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

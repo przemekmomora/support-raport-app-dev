@@ -15,21 +15,25 @@ export const ReportInvoice = ({ invoiceUrl, invoiceComment }: ReportInvoiceProps
 
   return (
     <Card className="animate-fade-in-up overflow-hidden border-0 shadow-soft" style={{ animationDelay: "0.6s" }}>
-      <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
+      <CardContent className="p-6">
+        {invoiceComment && (
+          <div className="mb-4 rounded-lg border border-border bg-muted/20 p-4">
+            <p className="text-sm font-semibold text-foreground">Komentarz do faktury</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              {invoiceComment}
+            </p>
+          </div>
+        )}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
           <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-secondary">
             <Receipt className="h-7 w-7 text-muted-foreground" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground">Faktura</h3>
+            <h3 className="text-lg font-semibold text-foreground">Faktura do pobrania</h3>
             <p className="text-sm text-muted-foreground">
               Pobierz fakturę za ten miesiąc
             </p>
-            {invoiceComment && (
-              <p className="mt-2 text-sm text-foreground">
-                {invoiceComment}
-              </p>
-            )}
           </div>
         </div>
         {invoiceUrl && (
@@ -38,6 +42,7 @@ export const ReportInvoice = ({ invoiceUrl, invoiceComment }: ReportInvoiceProps
             Pobierz fakturę
           </Button>
         )}
+        </div>
       </CardContent>
     </Card>
   );

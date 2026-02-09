@@ -46,6 +46,7 @@ const ReportForm = () => {
   const [speedScoreDesktop, setSpeedScoreDesktop] = useState(90);
   const [pagespeedUrl, setPagespeedUrl] = useState("");
   const [invoiceUrl, setInvoiceUrl] = useState("");
+  const [invoiceComment, setInvoiceComment] = useState("");
   
   // Tasks
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
@@ -121,6 +122,7 @@ const ReportForm = () => {
       setSpeedScoreDesktop(report.speed_score_desktop);
       setPagespeedUrl(report.pagespeed_url || "");
       setInvoiceUrl(report.invoice_url || "");
+      setInvoiceComment(report.invoice_comment || "");
       
       // Parse tasks - separate template tasks from custom ones
       const allTasks = Array.isArray(report.tasks_json) ? report.tasks_json as string[] : [];
@@ -254,6 +256,7 @@ const ReportForm = () => {
       speed_score_desktop: speedScoreDesktop,
       pagespeed_url: pagespeedUrl || null,
       invoice_url: invoiceUrl || null,
+      invoice_comment: invoiceComment.trim() || null,
       tasks_json: allTasks,
       extra_tasks_json: finalExtraTasks,
       extra_paid_tasks_json: finalExtraPaidTasks,
@@ -730,7 +733,17 @@ const ReportForm = () => {
             <CardHeader>
               <CardTitle>Faktura</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="invoice-comment">Komentarz do faktury (opcjonalnie)</Label>
+                <Textarea
+                  id="invoice-comment"
+                  value={invoiceComment}
+                  onChange={(e) => setInvoiceComment(e.target.value)}
+                  placeholder="Dodaj komentarz, który pojawi się w raporcie..."
+                  rows={3}
+                />
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="invoice">Link do faktury (PDF)</Label>
                 <Input

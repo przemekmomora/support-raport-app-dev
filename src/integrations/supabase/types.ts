@@ -45,6 +45,7 @@ export type Database = {
           extra_tasks_json: Json | null
           extra_paid_tasks_json: Json | null
           id: string
+          invoice_comment: string | null
           invoice_url: string | null
           month: string
           pagespeed_url: string | null
@@ -63,6 +64,7 @@ export type Database = {
           extra_tasks_json?: Json | null
           extra_paid_tasks_json?: Json | null
           id?: string
+          invoice_comment?: string | null
           invoice_url?: string | null
           month: string
           pagespeed_url?: string | null
@@ -81,6 +83,7 @@ export type Database = {
           extra_tasks_json?: Json | null
           extra_paid_tasks_json?: Json | null
           id?: string
+          invoice_comment?: string | null
           invoice_url?: string | null
           month?: string
           pagespeed_url?: string | null

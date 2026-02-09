@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Download, FileText, Receipt } from "lucide-react";
 
 interface ReportInvoiceProps {
-  invoiceUrl: string;
+  invoiceUrl?: string | null;
+  invoiceComment?: string | null;
 }
 
-export const ReportInvoice = ({ invoiceUrl }: ReportInvoiceProps) => {
+export const ReportInvoice = ({ invoiceUrl, invoiceComment }: ReportInvoiceProps) => {
   const handleDownload = () => {
+    if (!invoiceUrl) return;
     window.open(invoiceUrl, "_blank");
   };
 
@@ -23,12 +25,19 @@ export const ReportInvoice = ({ invoiceUrl }: ReportInvoiceProps) => {
             <p className="text-sm text-muted-foreground">
               Pobierz fakturę za ten miesiąc
             </p>
+            {invoiceComment && (
+              <p className="mt-2 text-sm text-foreground">
+                {invoiceComment}
+              </p>
+            )}
           </div>
         </div>
-        <Button onClick={handleDownload} className="w-full gap-2 rounded-lg sm:w-auto">
-          <Download className="h-4 w-4" />
-          Pobierz fakturę
-        </Button>
+        {invoiceUrl && (
+          <Button onClick={handleDownload} className="w-full gap-2 rounded-lg sm:w-auto">
+            <Download className="h-4 w-4" />
+            Pobierz fakturę
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

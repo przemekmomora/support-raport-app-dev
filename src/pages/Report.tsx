@@ -25,6 +25,7 @@ interface Report {
   extra_paid_tasks_json: string[] | null;
   recommendations: string[] | null;
   invoice_url: string | null;
+  invoice_comment: string | null;
   pagespeed_url: string | null;
   created_at: string;
   clients: {
@@ -126,7 +127,12 @@ const Report = () => {
 
             <ReportRecommendations recommendations={recommendations} />
 
-            {report.invoice_url && <ReportInvoice invoiceUrl={report.invoice_url} />}
+            {(report.invoice_url || report.invoice_comment) && (
+              <ReportInvoice
+                invoiceUrl={report.invoice_url}
+                invoiceComment={report.invoice_comment}
+              />
+            )}
           </div>
 
           <footer className="mt-16 pt-8 border-t border-border text-center space-y-2">

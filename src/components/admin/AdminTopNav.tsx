@@ -16,8 +16,8 @@ const AdminTopNav = ({ rightSlot }: AdminTopNavProps) => {
     <header className="border-b bg-background">
       <div className="container mx-auto flex flex-wrap items-center gap-6 px-4 py-4">
         <div className="flex items-center gap-6">
-          <h1 className="text-xl font-semibold">Panel Administracyjny</h1>
-          <nav className="flex items-center gap-4 text-sm">
+          <h1 className="text-xl font-semibold mr-4">Panel Administracyjny</h1>
+          <nav className="flex items-center gap-6 text-sm">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}

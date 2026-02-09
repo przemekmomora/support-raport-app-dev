@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import AdminTopNav from "@/components/admin/AdminTopNav";
 import {
   Select,
   SelectContent,
@@ -376,27 +377,32 @@ const ReportForm = () => {
 
   if (isEditing && isLoadingReport) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      <div className="min-h-screen bg-background">
+        <AdminTopNav />
+        <div className="flex items-center justify-center p-6">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="container mx-auto max-w-2xl space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/panel/raporty">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <h1 className="text-2xl font-bold">
-            {isEditing ? "Edytuj raport" : "Utwórz raport"}
-          </h1>
-        </div>
+    <div className="min-h-screen bg-background">
+      <AdminTopNav />
+      <div className="p-6">
+        <div className="container mx-auto max-w-2xl space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" asChild>
+              <Link to="/panel/raporty">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+            <h1 className="text-2xl font-bold">
+              {isEditing ? "Edytuj raport" : "Utwórz raport"}
+            </h1>
+          </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Info */}
           <Card>
             <CardHeader>
@@ -792,7 +798,8 @@ const ReportForm = () => {
               Anuluj
             </Button>
           </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

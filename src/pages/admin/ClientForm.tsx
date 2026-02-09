@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
+import AdminTopNav from "@/components/admin/AdminTopNav";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -101,101 +102,107 @@ const ClientForm = () => {
 
   if (isEditing && isLoadingClient) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      <div className="min-h-screen bg-background">
+        <AdminTopNav />
+        <div className="flex items-center justify-center p-6">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="container mx-auto max-w-xl space-y-6">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/panel/klienci">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <h1 className="text-2xl font-bold">
-            {isEditing ? "Edytuj klienta" : "Dodaj klienta"}
-          </h1>
-        </div>
+    <div className="min-h-screen bg-background">
+      <AdminTopNav />
+      <div className="p-6">
+        <div className="container mx-auto max-w-xl space-y-6">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" asChild>
+              <Link to="/panel/klienci">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+            <h1 className="text-2xl font-bold">
+              {isEditing ? "Edytuj klienta" : "Dodaj klienta"}
+            </h1>
+          </div>
 
-        <Card>
-          <CardContent className="pt-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Nazwa firmy</Label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Przykładowa Firma Sp. z o.o."
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email kontaktowy</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                  placeholder="kontakt@firma.pl"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="website">Adres strony WWW</Label>
-                <Input
-                  id="website"
-                  type="url"
-                  value={websiteUrl}
-                  onChange={(e) => setWebsiteUrl(e.target.value)}
-                  placeholder="https://www.firma.pl"
-                />
-              </div>
-
-              <div className="flex items-center justify-between rounded-lg border p-4">
-                <div className="space-y-1">
-                  <Label htmlFor="is-active">Aktywny</Label>
-                  <p className="text-sm text-muted-foreground">
-                    Aktywni klienci pojawiają się w bieżącym miesiącu w zakładce Raporty.
-                  </p>
+          <Card>
+            <CardContent className="pt-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Nazwa firmy</Label>
+                  <Input
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Przykładowa Firma Sp. z o.o."
+                    required
+                  />
                 </div>
-                <Switch
-                  id="is-active"
-                  checked={isActive}
-                  onCheckedChange={setIsActive}
-                />
-              </div>
 
-              <div className="flex gap-4 pt-4">
-                <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Zapisywanie...
-                    </>
-                  ) : isEditing ? (
-                    "Zapisz zmiany"
-                  ) : (
-                    "Dodaj klienta"
-                  )}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => navigate("/panel/klienci")}
-                >
-                  Anuluj
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email kontaktowy</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={contactEmail}
+                    onChange={(e) => setContactEmail(e.target.value)}
+                    placeholder="kontakt@firma.pl"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="website">Adres strony WWW</Label>
+                  <Input
+                    id="website"
+                    type="url"
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                    placeholder="https://www.firma.pl"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between rounded-lg border p-4">
+                  <div className="space-y-1">
+                    <Label htmlFor="is-active">Aktywny</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Aktywni klienci pojawiają się w bieżącym miesiącu w zakładce Raporty.
+                    </p>
+                  </div>
+                  <Switch
+                    id="is-active"
+                    checked={isActive}
+                    onCheckedChange={setIsActive}
+                  />
+                </div>
+
+                <div className="flex gap-4 pt-4">
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Zapisywanie...
+                      </>
+                    ) : isEditing ? (
+                      "Zapisz zmiany"
+                    ) : (
+                      "Dodaj klienta"
+                    )}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => navigate("/panel/klienci")}
+                  >
+                    Anuluj
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );

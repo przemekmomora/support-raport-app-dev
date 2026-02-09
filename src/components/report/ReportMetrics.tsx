@@ -23,7 +23,7 @@ export const ReportMetrics = ({
       style={{ animationDelay: "0.2s" }}
     >
       <h2 className="text-lg font-bold text-foreground">
-        PageSpeed Insights
+        Szybkość strony (PageSpeed Insights)
       </h2>
 
       <div className="flex gap-12">

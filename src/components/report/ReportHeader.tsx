@@ -15,7 +15,7 @@ export const ReportHeader = ({ clientName, month, websiteUrl }: ReportHeaderProp
     <header className="animate-fade-in-up space-y-6">
       <div className="space-y-4">
         <p className="text-sm font-medium text-muted-foreground">
-          Raport miesięczny · <span className="capitalize">{formattedMonth}</span>
+          Raport miesięczny z opieki nad stroną · <span className="capitalize">{formattedMonth}</span>
         </p>
         
         <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-5xl">

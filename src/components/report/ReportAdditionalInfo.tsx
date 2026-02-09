@@ -5,7 +5,7 @@ interface ReportAdditionalInfoProps {
 export const ReportAdditionalInfo = ({ infoText }: ReportAdditionalInfoProps) => {
   return (
     <div
-      className="animate-fade-in-up space-y-4 py-6"
+      className="animate-fade-in-up space-y-4 border-y border-border py-8"
       style={{ animationDelay: "0.55s" }}
     >
       <div className="flex items-center gap-2">

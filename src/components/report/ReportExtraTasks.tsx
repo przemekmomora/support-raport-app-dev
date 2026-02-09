@@ -11,7 +11,7 @@ export const ReportExtraTasks = ({ tasks }: ReportExtraTasksProps) => {
 
   return (
     <div
-      className="animate-fade-in-up space-y-6 rounded-[10px] bg-[#EAF1FF] px-6 py-8"
+      className="animate-fade-in-up space-y-6 rounded-[10px] bg-[#EDF3FF] px-6 py-8"
       style={{ animationDelay: "0.4s" }}
     >
       <div className="flex items-baseline justify-between">

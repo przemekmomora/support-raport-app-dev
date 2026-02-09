@@ -8,6 +8,7 @@ import { ReportTasks } from "@/components/report/ReportTasks";
 import { ReportExtraTasks } from "@/components/report/ReportExtraTasks";
 import { ReportExtraPaidTasks } from "@/components/report/ReportExtraPaidTasks";
 import { ReportRecommendations } from "@/components/report/ReportRecommendations";
+import { ReportAdditionalInfo } from "@/components/report/ReportAdditionalInfo";
 import { ReportInvoice } from "@/components/report/ReportInvoice";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -127,12 +128,11 @@ const Report = () => {
 
             <ReportRecommendations recommendations={recommendations} />
 
-            {(report.invoice_url || report.invoice_comment) && (
-              <ReportInvoice
-                invoiceUrl={report.invoice_url}
-                invoiceComment={report.invoice_comment}
-              />
+            {report.invoice_comment && (
+              <ReportAdditionalInfo infoText={report.invoice_comment} />
             )}
+
+            {report.invoice_url && <ReportInvoice invoiceUrl={report.invoice_url} />}
           </div>
 
           <footer className="mt-16 pt-8 border-t border-border text-center space-y-2">

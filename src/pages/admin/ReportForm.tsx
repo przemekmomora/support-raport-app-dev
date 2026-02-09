@@ -728,14 +728,14 @@ const ReportForm = () => {
             </CardContent>
           </Card>
 
-          {/* Invoice */}
+          {/* Additional Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Faktura</CardTitle>
+              <CardTitle>Dodatkowe informacje</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent>
               <div className="space-y-2">
-                <Label htmlFor="invoice-comment">Komentarz do faktury (opcjonalnie)</Label>
+                <Label htmlFor="invoice-comment">Dodatkowe informacje</Label>
                 <Textarea
                   id="invoice-comment"
                   value={invoiceComment}
@@ -744,6 +744,15 @@ const ReportForm = () => {
                   rows={3}
                 />
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Invoice */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Faktura</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="invoice">Link do faktury (PDF)</Label>
                 <Input

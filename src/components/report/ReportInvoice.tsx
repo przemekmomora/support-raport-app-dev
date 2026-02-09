@@ -18,7 +18,7 @@ export const ReportInvoice = ({ invoiceUrl, invoiceComment }: ReportInvoiceProps
       <CardContent className="p-6">
         {invoiceComment && (
           <div className="mb-4 rounded-lg border border-border bg-muted/20 p-4">
-            <p className="text-sm font-semibold text-foreground">Komentarz do faktury</p>
+            <p className="text-sm font-semibold text-foreground">Dodatkowe informacje</p>
             <p className="mt-2 text-sm text-muted-foreground">
               {invoiceComment}
             </p>

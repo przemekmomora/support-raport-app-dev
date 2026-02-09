@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -32,6 +33,7 @@ interface Client {
   contact_email: string;
   website_url: string | null;
   created_at: string;
+  is_active: boolean;
 }
 
 const ClientsList = () => {
@@ -103,6 +105,7 @@ const ClientsList = () => {
                   <TableHead>Nazwa</TableHead>
                   <TableHead>Email</TableHead>
                   <TableHead>Strona</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead className="w-24">Akcje</TableHead>
                 </TableRow>
               </TableHeader>
@@ -125,6 +128,11 @@ const ClientsList = () => {
                       ) : (
                         <span className="text-muted-foreground">—</span>
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={client.is_active ? "default" : "secondary"}>
+                        {client.is_active ? "Aktywny" : "Nieaktywny"}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
@@ -165,7 +173,7 @@ const ClientsList = () => {
                 ))}
                 {clients?.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
+                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
                       Brak klientów. Dodaj pierwszego klienta.
                     </TableCell>
                   </TableRow>

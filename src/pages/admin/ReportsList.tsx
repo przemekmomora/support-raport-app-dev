@@ -31,6 +31,7 @@ import { useMemo } from "react";
 
 interface Report {
   id: string;
+  client_id: string;
   month: string;
   created_at: string;
   clients: {
@@ -40,9 +41,20 @@ interface Report {
   };
 }
 
+interface ActiveClient {
+  id: string;
+  name: string;
+  website_url: string | null;
+}
+
+type ReportItem =
+  | { type: "report"; report: Report }
+  | { type: "pending"; client: ActiveClient };
+
 const ReportsList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const currentMonth = format(new Date(), "yyyy-MM-01");
 
   const { data: reports, isLoading } = useQuery({
     queryKey: ["reports"],
@@ -51,6 +63,7 @@ const ReportsList = () => {
         .from("reports")
         .select(`
           id,
+          client_id,
           month,
           created_at,
           clients (
@@ -66,22 +79,47 @@ const ReportsList = () => {
     },
   });
 
+  const { data: activeClients, isLoading: isLoadingActiveClients } = useQuery({
+    queryKey: ["active-clients"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("clients")
+        .select("id, name, website_url")
+        .eq("is_active", true)
+        .order("name");
+      if (error) throw error;
+      return data as ActiveClient[];
+    },
+  });
+
   const groupedReports = useMemo(() => {
-    if (!reports) return [];
-    
-    const groups: { month: string; reports: Report[] }[] = [];
-    
-    reports.forEach((report) => {
-      const existingGroup = groups.find((g) => g.month === report.month);
-      if (existingGroup) {
-        existingGroup.reports.push(report);
-      } else {
-        groups.push({ month: report.month, reports: [report] });
-      }
+    const reportsList = reports ?? [];
+    const groupsMap = new Map<string, { month: string; items: ReportItem[] }>();
+
+    reportsList.forEach((report) => {
+      const group = groupsMap.get(report.month) ?? { month: report.month, items: [] };
+      group.items.push({ type: "report", report });
+      groupsMap.set(report.month, group);
     });
-    
-    return groups.sort((a, b) => parseISO(b.month).getTime() - parseISO(a.month).getTime());
-  }, [reports]);
+
+    if (activeClients) {
+      const currentMonthReports = reportsList.filter((report) => report.month === currentMonth);
+      const reportedClientIds = new Set(currentMonthReports.map((report) => report.client_id));
+      const pendingClients = activeClients.filter((client) => !reportedClientIds.has(client.id));
+
+      if (pendingClients.length > 0 || currentMonthReports.length > 0) {
+        const currentGroup = groupsMap.get(currentMonth) ?? { month: currentMonth, items: [] };
+        pendingClients.forEach((client) => {
+          currentGroup.items.push({ type: "pending", client });
+        });
+        groupsMap.set(currentMonth, currentGroup);
+      }
+    }
+
+    return Array.from(groupsMap.values()).sort(
+      (a, b) => parseISO(b.month).getTime() - parseISO(a.month).getTime(),
+    );
+  }, [reports, activeClients, currentMonth]);
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
@@ -103,7 +141,7 @@ const ReportsList = () => {
     toast.success("Link skopiowany do schowka");
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingActiveClients) {
     return (
       <div className="min-h-screen bg-background p-6">
         <div className="container mx-auto max-w-4xl space-y-6">
@@ -153,82 +191,117 @@ const ReportsList = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {group.reports.map((report) => (
-                      <TableRow key={report.id}>
-                        <TableCell className="font-medium">{report.clients.name}</TableCell>
-                        <TableCell>
-                          {report.clients.website_url ? (
-                            <a
-                              href={report.clients.website_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-primary hover:underline"
-                            >
-                              {report.clients.website_url.replace(/^https?:\/\//, '')}
-                            </a>
-                          ) : (
-                            <span className="text-muted-foreground">—</span>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {format(parseISO(report.created_at), "dd.MM.yyyy")}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-1">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => copyReportLink(report.id)}
-                              title="Kopiuj link"
-                            >
-                              <Copy className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              asChild
-                              title="Zobacz raport"
-                            >
-                              <a href={`/reports/${report.id}`} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                              </a>
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => navigate(`/panel/raporty/${report.id}/edycja`)}
-                              title="Edytuj"
-                            >
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button variant="ghost" size="icon" title="Usuń">
-                                  <Trash2 className="h-4 w-4 text-destructive" />
+                    {group.items.map((item) => {
+                      if (item.type === "report") {
+                        const report = item.report;
+                        return (
+                          <TableRow key={report.id}>
+                            <TableCell className="font-medium">{report.clients.name}</TableCell>
+                            <TableCell>
+                              {report.clients.website_url ? (
+                                <a
+                                  href={report.clients.website_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-primary hover:underline"
+                                >
+                                  {report.clients.website_url.replace(/^https?:\/\//, '')}
+                                </a>
+                              ) : (
+                                <span className="text-muted-foreground">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {format(parseISO(report.created_at), "dd.MM.yyyy")}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex gap-1">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => copyReportLink(report.id)}
+                                  title="Kopiuj link"
+                                >
+                                  <Copy className="h-4 w-4" />
                                 </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Usunąć raport?</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Ta akcja usunie raport. Nie można tego cofnąć.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Anuluj</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => deleteMutation.mutate(report.id)}
-                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                  >
-                                    Usuń
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  asChild
+                                  title="Zobacz raport"
+                                >
+                                  <a href={`/reports/${report.id}`} target="_blank" rel="noopener noreferrer">
+                                    <ExternalLink className="h-4 w-4" />
+                                  </a>
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => navigate(`/panel/raporty/${report.id}/edycja`)}
+                                  title="Edytuj"
+                                >
+                                  <Pencil className="h-4 w-4" />
+                                </Button>
+                                <AlertDialog>
+                                  <AlertDialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" title="Usuń">
+                                      <Trash2 className="h-4 w-4 text-destructive" />
+                                    </Button>
+                                  </AlertDialogTrigger>
+                                  <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Usunąć raport?</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Ta akcja usunie raport. Nie można tego cofnąć.
+                                      </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                      <AlertDialogCancel>Anuluj</AlertDialogCancel>
+                                      <AlertDialogAction
+                                        onClick={() => deleteMutation.mutate(report.id)}
+                                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                      >
+                                        Usuń
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </AlertDialogContent>
+                                </AlertDialog>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+
+                      return (
+                        <TableRow key={`pending-${item.client.id}`}>
+                          <TableCell className="font-medium">{item.client.name}</TableCell>
+                          <TableCell>
+                            {item.client.website_url ? (
+                              <a
+                                href={item.client.website_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                {item.client.website_url.replace(/^https?:\/\//, '')}
+                              </a>
+                            ) : (
+                              <span className="text-muted-foreground">—</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-muted-foreground">Brak raportu</span>
+                          </TableCell>
+                          <TableCell>
+                            <Button size="sm" asChild>
+                              <Link to={`/panel/raporty/nowy?clientId=${item.client.id}&month=${currentMonth}`}>
+                                Utwórz raport
+                              </Link>
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </CardContent>

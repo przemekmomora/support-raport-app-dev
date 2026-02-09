@@ -19,6 +19,7 @@ export type Database = {
           contact_email: string
           created_at: string
           id: string
+          is_active: boolean
           name: string
           website_url: string | null
         }
@@ -26,6 +27,7 @@ export type Database = {
           contact_email: string
           created_at?: string
           id?: string
+          is_active?: boolean
           name: string
           website_url?: string | null
         }
@@ -33,6 +35,7 @@ export type Database = {
           contact_email?: string
           created_at?: string
           id?: string
+          is_active?: boolean
           name?: string
           website_url?: string | null
         }

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -19,6 +20,7 @@ const ClientForm = () => {
   const [name, setName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
+  const [isActive, setIsActive] = useState(false);
 
   const { data: client, isLoading: isLoadingClient } = useQuery({
     queryKey: ["client", id],
@@ -40,11 +42,12 @@ const ClientForm = () => {
       setName(client.name);
       setContactEmail(client.contact_email);
       setWebsiteUrl(client.website_url || "");
+      setIsActive(!!client.is_active);
     }
   }, [client]);
 
   const createMutation = useMutation({
-    mutationFn: async (data: { name: string; contact_email: string; website_url: string | null }) => {
+    mutationFn: async (data: { name: string; contact_email: string; website_url: string | null; is_active: boolean }) => {
       const { error } = await supabase.from("clients").insert(data);
       if (error) throw error;
     },
@@ -61,7 +64,7 @@ const ClientForm = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async (data: { name: string; contact_email: string; website_url: string | null }) => {
+    mutationFn: async (data: { name: string; contact_email: string; website_url: string | null; is_active: boolean }) => {
       const { error } = await supabase.from("clients").update(data).eq("id", id);
       if (error) throw error;
     },
@@ -84,6 +87,7 @@ const ClientForm = () => {
       name,
       contact_email: contactEmail,
       website_url: websiteUrl || null,
+      is_active: isActive,
     };
 
     if (isEditing) {
@@ -151,6 +155,20 @@ const ClientForm = () => {
                   value={websiteUrl}
                   onChange={(e) => setWebsiteUrl(e.target.value)}
                   placeholder="https://www.firma.pl"
+                />
+              </div>
+
+              <div className="flex items-center justify-between rounded-lg border p-4">
+                <div className="space-y-1">
+                  <Label htmlFor="is-active">Aktywny</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Aktywni klienci pojawiają się w bieżącym miesiącu w zakładce Raporty.
+                  </p>
+                </div>
+                <Switch
+                  id="is-active"
+                  checked={isActive}
+                  onCheckedChange={setIsActive}
                 />
               </div>
 

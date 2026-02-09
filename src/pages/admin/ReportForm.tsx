@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -34,13 +34,17 @@ interface Client {
 
 const ReportForm = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const isEditing = !!id;
 
+  const initialClientId = searchParams.get("clientId") ?? "";
+  const initialMonth = searchParams.get("month") ?? "";
+
   // Form state
-  const [clientId, setClientId] = useState("");
-  const [month, setMonth] = useState("");
+  const [clientId, setClientId] = useState(initialClientId);
+  const [month, setMonth] = useState(initialMonth);
   const [statusText, setStatusText] = useState("Wszystko działa poprawnie. Strona jest aktualna i bezpieczna.");
   const [speedScoreMobile, setSpeedScoreMobile] = useState(80);
   const [speedScoreDesktop, setSpeedScoreDesktop] = useState(90);

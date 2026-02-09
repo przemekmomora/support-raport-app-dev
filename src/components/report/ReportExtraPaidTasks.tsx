@@ -11,7 +11,7 @@ export const ReportExtraPaidTasks = ({ tasks }: ReportExtraPaidTasksProps) => {
 
   return (
     <div
-      className="animate-fade-in-up space-y-6 rounded-[10px] bg-[#FFF8ED] px-6 py-8"
+      className="animate-fade-in-up space-y-6 rounded-[10px] bg-[#F5F7FD] px-6 py-8"
       style={{ animationDelay: "0.45s" }}
     >
       <div className="flex items-baseline justify-between">
@@ -22,7 +22,7 @@ export const ReportExtraPaidTasks = ({ tasks }: ReportExtraPaidTasksProps) => {
       <ul className="space-y-4">
         {tasks.map((task, index) => (
           <li key={index} className="flex items-start gap-3">
-            <CircleCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#E6A04B]" />
+            <CircleCheck className="mt-0.5 h-5 w-5 shrink-0 text-[#4A74D9]" />
             <span className="text-foreground leading-relaxed">{task}</span>
           </li>
         ))}

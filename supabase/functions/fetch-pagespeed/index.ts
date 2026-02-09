@@ -89,7 +89,7 @@ serve(async (req) => {
 
     // Generate PageSpeed Insights URL that will show/run analysis for this URL
     // Note: API doesn't return a persistent analysis ID, so we use the URL-based format
-    const pagespeedUrl = `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(normalizedUrl)}`;
+    const pagespeedUrl = `https://pagespeed.web.dev/analysis?hl=pl&url=${encodeURIComponent(normalizedUrl)}`;
 
     const result: PageSpeedResult = {
       mobileScore,

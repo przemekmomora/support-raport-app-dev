@@ -13,7 +13,7 @@ export const ReportInvoice = ({ invoiceUrl }: ReportInvoiceProps) => {
 
   return (
     <div
-      className="animate-fade-in-up space-y-4 py-8"
+      className="animate-fade-in-up space-y-4 border-t border-border py-8"
       style={{ animationDelay: "0.6s" }}
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

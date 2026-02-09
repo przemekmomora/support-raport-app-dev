@@ -10,8 +10,8 @@ export const ReportRecommendations = ({ recommendations }: ReportRecommendations
   }
 
   return (
-    <div 
-      className="animate-fade-in-up space-y-6 border-t border-border py-8" 
+    <div
+      className="animate-fade-in-up space-y-6 rounded-[10px] bg-[#FFF8ED] px-6 py-8"
       style={{ animationDelay: "0.5s" }}
     >
       <div className="flex items-baseline justify-between">

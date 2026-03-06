@@ -160,7 +160,7 @@ const ReportsList = () => {
     <div className="min-h-screen bg-background">
       <AdminTopNav />
       <div className="p-6">
-        <div className="container mx-auto max-w-4xl space-y-6">
+        <div className="container mx-auto space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button variant="ghost" size="icon" asChild>

@@ -72,7 +72,7 @@ const ClientsList = () => {
       <div className="min-h-screen bg-background">
         <AdminTopNav />
         <div className="p-6">
-          <div className="container mx-auto max-w-4xl space-y-6">
+          <div className="container mx-auto space-y-6">
             <Skeleton className="h-10 w-48" />
             <Skeleton className="h-64 w-full" />
           </div>

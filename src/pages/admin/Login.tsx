@@ -12,7 +12,8 @@ const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { signIn } = useAuth();
+  const [isResetting, setIsResetting] = useState(false);
+  const { signIn, resetPassword } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,6 +32,31 @@ const AdminLogin = () => {
 
     toast.success("Zalogowano pomyślnie");
     navigate("/panel");
+  };
+
+  const handleResetPassword = async () => {
+    if (!email.trim()) {
+      toast.error("Brak emaila", {
+        description: "Podaj adres email, aby wysłać link do resetu hasła",
+      });
+      return;
+    }
+
+    setIsResetting(true);
+    const { error } = await resetPassword(email.trim());
+
+    if (error) {
+      toast.error("Nie udało się wysłać linku", {
+        description: "Spróbuj ponownie za chwilę",
+      });
+      setIsResetting(false);
+      return;
+    }
+
+    toast.success("Wysłano link do resetu hasła", {
+      description: "Sprawdź swoją skrzynkę pocztową",
+    });
+    setIsResetting(false);
   };
 
   return (
@@ -63,6 +89,15 @@ const AdminLogin = () => {
                 required
               />
             </div>
+            <Button
+              type="button"
+              variant="link"
+              className="px-0"
+              onClick={handleResetPassword}
+              disabled={isSubmitting || isResetting}
+            >
+              {isResetting ? "Wysyłanie linku..." : "Nie pamiętasz hasła?"}
+            </Button>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
